@@ -4,12 +4,32 @@
 
 int main(void)
 {
+    struct Object *obj1 = newObject();
+
+    if (!obj1)
+    {
+        return EXIT_FAILURE;
+    }
+
+    struct Object *obj2 = newObject();
+    
+    if (!obj2)
+    {
+        return EXIT_FAILURE;
+    }
+    struct Point *pnt = newPoint(4, 16);
+
+    if (!pnt)
+    {
+        return EXIT_FAILURE;
+    }
+
     void *arr[] = {
-        newObject(),
+        obj1,
         &Class,
-        newPoint(4, 16),
+        pnt,
         &Object,
-        newObject(),
+        obj2,
         &Point,
     };
 
@@ -20,6 +40,6 @@ int main(void)
         printf("Iteration #%ld: ", i);
         print(arr[i]);
     }
-   
+
     return EXIT_SUCCESS;
 }

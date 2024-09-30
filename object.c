@@ -23,6 +23,11 @@ struct Object* newObject()
 {
     struct Object *self = malloc(sizeof(*self));
 
+    if (!self)
+    {
+        return NULL;
+    }
+
     self->class = &Object;
 
     return self;
@@ -70,6 +75,11 @@ struct Point
 struct Point* newPoint(float x, float y)
 {
     struct Point *self = malloc(sizeof(*self));
+
+    if (!self)
+    {
+        return NULL;
+    }
 
     self->_.class = &Point;
     
