@@ -72,7 +72,7 @@ struct Class Point = {
 };
 ```
 
-Each instance of the class of classes points to the instance of its super class, as well as to a different function for printing out their corresponding objects. Each class contains a different, specialized print method which is dispatched dynamically by the generic print function.
+Each instance of the class of classes points to the instance of its super class, as well as to a different function for printing out their corresponding objects. Each class refers to a different, specialized `.print` method, which is dispatched dynamically by the generic `print()` function.
 
 ```
 void print(struct Class **self)
@@ -81,7 +81,9 @@ void print(struct Class **self)
 }
 ```
 
-In the `main()`, this function is called at each iteration over an array containing pointers to instances of different classes, ultimately displaying polymorphic behaviour.
+When this function is called on a pointer to a `struct Object`, on any of its extensions, the argument will be reinterpreted as a pointer to a pointer to `struct Class`. In fact, the first `sizeof(struct Class*)` bytes of any object are guaranteed to correspond to a `struct Class*`.
+
+In the `main()`, an array containing pointers to instances of different classes is iterated over, with `print()` being called onto each of its elements in order to display polymorphic behaviour.
 
 ```
 Iteration #0: <Object: 0x55d8712f42a0>
