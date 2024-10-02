@@ -81,7 +81,25 @@ void print(struct Class **self)
 }
 ```
 
-When this function is called on a pointer to a `struct Object`, on any of its extensions, the argument will be reinterpreted as a pointer to a pointer to `struct Class`. In fact, the first `sizeof(struct Class*)` bytes of any object are guaranteed to correspond to a `struct Class*`.
+When this function is called on a pointer to a `struct Object`, or any of its extensions, the argument will be reinterpreted as a pointer to a pointer to `struct Class`. In fact, the first `sizeof(struct Class*)` bytes of any object are guaranteed to correspond to a `struct Class*`. The `.print()` method is then called onto that same pointer, which will be downcasted appropriately by the pointed implementation.
+
+```
+static void printObject(void *self)
+{
+    printf("<%s: %p>\n", ((struct Object*) self)->class->name, self);
+}
+
+static void printClass(void *self)
+{
+    printf("(%s) ", ((struct Class*) self)->name);
+    ((struct Class*) self)->_.class->super->print(self);
+}
+
+static void printPoint(void *self)
+{
+    printf("x: %f, y: %f\n", ((struct Point*) self)->x, ((struct Point*) self)->y);
+}
+```
 
 In the `main()`, an array containing pointers to instances of different classes is iterated over, with `print()` being called onto each of its elements in order to display polymorphic behaviour.
 
